@@ -19,7 +19,6 @@ def extract_Page_content(html,base_url):
 
     for tag in soup(["script","style"]):
         tag.decompose()
-
     title= ""
     if soup.title and soup.title.string:
         title=soup.title.string.strip()
@@ -30,14 +29,12 @@ def extract_Page_content(html,base_url):
     links= []
     for a in soup.find_all("a", href=True):
         links.append(urljoin(base_url, a["href"]))
-
     return title,body_text,links
 
 def word_frequencies(text):
     text=text.lower()
     freq= {}
     word= ""
-
     for ch in text:
         if ch.isalnum():
             word += ch
@@ -67,7 +64,6 @@ def polynomial_hash_value(word):
 
 def get_simhash_func(freq):
     vector= [0] * 64
-
     for word in freq:
         weight = freq[word]
         h= polynomial_hash_value(word)
@@ -77,12 +73,12 @@ def get_simhash_func(freq):
                 vector[i] += weight
             else:
                 vector[i] -= weight
-    simhash = 0
+    fing_print= 0
     for i in range(64):
         if vector[i] > 0:
-            simhash |= (1 << i)
+            fing_print |= (1 << i)
 
-    return simhash
+    return fing_print
 def count_common_bits(h1, h2):
     xor= h1 ^ h2
     count = 0
@@ -93,7 +89,6 @@ def count_common_bits(h1, h2):
 
 def process_url(url):
     print("\nProcessing:", url)
-
     html = fetch_page(url)
     if html == "":
         return 0
@@ -123,3 +118,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
